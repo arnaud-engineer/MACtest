@@ -1,0 +1,295 @@
+@font-face {
+    font-family: 'Squatina';
+    src: url('fonts/Squatina-Regular.eot');
+    src: url('fonts/Squatina-Regular.eot?#iefix') format('embedded-opentype'),
+        url('fonts/Squatina-Regular.woff2') format('woff2'),
+        url('fonts/Squatina-Regular.woff') format('woff'),
+        url('fonts/Squatina-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
+:root
+{
+
+	--loader-width: min(40vw, 40vh);
+  --loader-size: min(10vw, 10vh);
+
+
+	--backgroundColor: #967259;
+	--textColor: #ece0d1;
+
+	--shadowMotionDelta: .2%;
+
+	font-family: Squatina;
+	color: white;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+
+* {
+	user-select: none;
+	margin: 0;
+	padding: 0;
+
+	transition: all .3s ease-out;
+
+}
+
+.resized,
+.resized *
+{
+	transition: all 0s linear !important;
+}
+
+
+
+body
+{
+	overflow: hidden;
+
+	font-size: max(30px, 3vh, 3vw);
+
+	transform-origin: 50vw 50vh !important;
+}
+
+	body.deg90 { transform: rotate(90deg); }
+	body.deg180 { transform: rotate(180deg); }
+	body.deg270 { transform: rotate(-90deg); }
+
+
+
+
+header
+{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: max(40px, 4vh, 4vw);
+	background-color: red;
+
+	text-transform: uppercase;
+
+	box-shadow: 0px max(10px, 1vh, 1vw) 0px 0px black;
+}
+
+	header h1
+	{
+		background-color: yellow;
+		color: black;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: max(40px, 4vh, 4vw);
+		font-size: max(30px, 3vh, 3vw);
+
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+
+main
+{
+	position: fixed;
+	top: max(50px, 5vh, 5vw);;
+	left: 0;
+	width: 100vw;
+	height: calc(100vh - max(50px, 5vh, 5vw));
+}
+
+	main .screen
+	{
+		position: fixed;
+		top: max(50px, 5vh, 5vw);;
+		left: 0;
+		width: 100vw;
+		height: calc(100vh - max(50px, 5vh, 5vw));
+
+	}
+
+
+input
+{
+	border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+
+  width: max(min(80vh,80vw), 180px);
+
+  box-shadow: 0px max(10px, 1vh, 1vw) 0px 0px black;
+
+  text-align: center;
+  text-transform: uppercase;
+  font-family: Squatina;
+}
+
+input:focus
+{
+	outline: none;
+
+	font-size: max(30px, 3vh, 3vw);
+
+	transform: scale(1.04);
+}
+
+input::placeholder {
+  color: grey;
+  font-size: max(30px, 3vh, 3vw);
+}
+
+
+
+
+
+.actionButtons
+{
+	width: 92vw;
+	height: max(34px, 14vh);
+
+	margin-left: auto;
+	margin-right: auto;
+
+	display: block;
+}
+
+
+.nextStep
+{
+	background-color: green;
+	color: white;
+	font-size: max(34px, 14vh);
+
+	width: max(34px, 14vw);
+	height: max(34px, 14vh);
+
+	margin-left: auto;
+	margin-right: auto;
+
+	display: inline-block;
+}
+
+	.nextStep:hover
+	{
+		transform: scale(.9);
+		opacity: .9;
+	}
+
+
+
+
+.screen
+{
+	transition: all .7s ease-out;
+	display: none;
+}
+
+.screen.displayed
+{
+	display: block;
+	transform: translateX(120vw);
+}
+
+.screen.current
+{
+	transform: translateX(0vw);
+}
+
+.screen.removalAnimation {
+	transform: translateX(-120vw);
+}
+
+
+
+
+
+#screen0
+{
+}
+
+
+
+
+
+
+
+#background
+{
+	position: fixed;
+	top: max(50px, 5vh, 5vw);;
+	left: 0;
+	width: 100vw;
+	height: calc(100vh - max(50px, 5vh, 5vw));
+
+	overflow: hidden;
+
+	z-index: -1;
+
+}
+
+
+#videoBlur {
+				position: absolute;
+	    top: -9999px;
+	    bottom: -9999px;
+	    left: -9999px;
+	    right: -9999px;
+	    margin: auto;
+
+
+	filter: blur(5px);
+	z-index: -2;
+}
+
+
+#video {
+				position: absolute;
+	    top: -9999px;
+	    bottom: -9999px;
+	    left: -9999px;
+	    right: -9999px;
+	    margin: auto;
+	    max-height: 100vh;
+	    max-width: 100vh;
+
+
+
+	z-index: -1;
+}
+
+
+
+
+
+
+
+
+
+
+
+#canvas
+{ display: none; }
+
+
+#photo
+{
+	display: none;
+
+	width: auto;
+	height: 60vh;
+
+	border: max(1vh, 1vw, 10px) white solid;
+
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+#photo.displayed
+{
+	display: inline-block;
+}

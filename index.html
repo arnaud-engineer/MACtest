@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<!-- ENCODAGE -->
+			<meta charset="utf-8" />
+		<!-- PAGE INFO -->
+			<title>MAC check</title>
+		<!-- RESPONSIVENESS -->
+			<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+		<!-- CSS -->
+			<link rel="stylesheet" href="style.css" />
+			<link rel="manifest" href="site.webmanifest">
+		<!-- JavaScript (ORDER : https://support.freshmarketer.com/support/solutions/articles/50000001426-synchronous-and-asynchronous-script-execution )-->
+			<script src="script.js"></script>
+	</head>
+
+	<body class="">
+
+		<header>
+			<h1>MAC check</h1>
+		</header>
+
+		<noscript>JavaScript is currently disabled on your browser, to enhanced your browsing experience you should activate it : <a href="https://www.enable-javascript.com">see how</a></noscript>
+
+		<main>
+
+			<div id="background">
+				<video id="videoBlur">Video stream not available.</video>
+				<video id="video">Video stream not available.</video>
+			</div>
+
+
+
+
+
+			<div class="screen current displayed" id="screen0">
+
+				<!--<input type="file" accept="image/*;capture=camera">
+
+				<device type="media" onchange="update(this.data)"></device>-->
+				<div class="camera">
+  
+</div>
+
+<canvas id="canvas"></canvas>
+
+<div class="output">
+  <img id="photo" alt="The screen capture will appear in this box.">
+</div>
+
+
+<div class="actionButtons">
+	<button id="startbutton">📸</button>
+	<button id="endbutton">Off</button>
+	<button id="restartbutton">On</button>
+	<button id="switchbutton">🔄</button>
+	<span class="nextStep" onclick="nextScreen();">></span>
+</div>
+
+
+
+
+			</div>
+
+
+
+
+
+
+
+			<div class="screen" id="screen1">
+
+				<h1>Opérateur</h1>
+				<p>Sélectionner ou ajouter un opérateur</p>
+
+				<input type="text" name="username" class="text" placeholder="nom" list="usersSuggestions" />
+				<datalist id="usersSuggestions"></datalist>
+
+				<div id="usersSelection"></div>
+
+				<div class="actionButtons">
+					<span class="nextStep" onclick="nextScreen();">></span>
+				</div>
+				
+			</div>
+
+			<div class="screen" id="screen2">
+
+			</div>
+
+
+
+		</main>
+
+
+
+	</body>
+</html>
