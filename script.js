@@ -117,11 +117,6 @@ function drawScreenshot()
 	if (streamWidth > streamHeight) {
 		bestPossibleWidth = streamHeight * 9 / 16;
 	}
-	if (width > height) {
-		let temp = width;
-		width = height;
-		height = temp;
-	}
 
 	if(webcamFilter == "clair") {
     context.filter = "contrast(200%) brightness(80%)";
@@ -146,15 +141,16 @@ function getWindowOrientation() {
 		windowOrientation = "portrait";
 		document.getElementById("videoBlur").classList.add("hidden");
 		document.getElementById("video").classList.add("portrait");
-		if (width > height) {
-      let temp = width;
-      width = height;
-      height = temp;
-    }
 	} else {
 		windowOrientation = "landscape";
 		document.getElementById("videoBlur").classList.remove("hidden");
 		document.getElementById("video").classList.remove("portrait");
+	}
+
+	if (width > height) {
+		let temp = width;
+		width = height;
+		height = temp;
 	}
 }
 
@@ -358,6 +354,7 @@ async function nextScreen()
 			  },
 			})
 	    .then((stream) => {
+	    	getWindowOrientation();
 	    	webcamFacingMode == "user";
 	    	webcamFront = true;
 
@@ -367,6 +364,7 @@ async function nextScreen()
 	      videoBlur.play();
 	      console.log("STREAM RES : " + stream.getVideoTracks()[0].getSettings().height + " x " + stream.getVideoTracks()[0].getSettings().width);
 	      webcamInput = stream;
+	      getWindowOrientation();
 	    })
 	    .catch(function(err) {
 	      console.log("ERROR - CRITICAL - NO CAM FOUND");
@@ -382,6 +380,7 @@ async function nextScreen()
 			  },
 			})
 	    .then((stream) => {
+	    	getWindowOrientation();
 	      video.srcObject = stream;
 	      video.play();
 	      videoBlur.srcObject = stream;
@@ -394,6 +393,7 @@ async function nextScreen()
 	      else if (webcamFacingMode == "user") {
 	      	webcamFront = true;
 	      }
+	      getWindowOrientation();
 	    })
 	    .catch(function(err) {
 	      console.log("NO EXACT ENV NAMED " + webcamFacingMode);
