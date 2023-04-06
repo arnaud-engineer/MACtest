@@ -431,7 +431,7 @@ button:disabled {
 	    margin: auto;
 	    min-height: 100vh;
 	    max-height: 120vh;
-	    max-width: 140vw;
+	    /*max-width: 140vw;*/
 
 	    overflow: hidden;
 
@@ -445,8 +445,7 @@ button:disabled {
 
 	#video.portrait {
 		/*min-width: 100vw !important; width: 100vw !important;*/
-		max-width: 100vw;
-		max-height: 9999vh;
+		/*max-width: 100vw;*/
 	}
 
 #video.clair
