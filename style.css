@@ -29,7 +29,7 @@
 	--photoButtonsWidth: max(min(460px,80vw),280px);
 	--photoButtonsHeight: calc(var(--photoButtonsWidth) * .35);
 
-	--frameHeight: calc(.95 * (100vh - 1.8 * var(--headerHeight) - 1.2 * var(--photoButtonsHeight)));
+	--frameHeight: calc(.9 * (100vh - 1.8 * var(--headerHeight) - 1.2 * var(--photoButtonsHeight)));
 
 
 	font-family: Squatina;
@@ -98,7 +98,7 @@ header
 		margin-left: auto;
 		margin-right: auto;
 
-		box-shadow: 0px max(10px, 1vh, 1vw) 0px 0px black;
+		box-shadow: 0px max(10px, 1vh, 1vw) 0px 0px #00000095;
 	}
 
 
@@ -250,7 +250,7 @@ button:disabled {
 
 .photoButtons
 {
-	background-color: #00000050;
+	background-color: #00000060;
 
 	position: fixed;
 	bottom: 0;
@@ -258,12 +258,12 @@ button:disabled {
 	width: var(--photoButtonsWidth);
 	height: var(--photoButtonsHeight);
 
+	padding-top: calc(var(--photoButtonsWidth) / 16);;
 	margin-left: auto;
 	margin-right: auto;
 
 	display: block;
 
-	box-shadow: 0px min(-10px, -1vh, -1vw) 0px 0px black;
 
 	text-transform: uppercase;
 
@@ -283,7 +283,7 @@ button:disabled {
 		left: calc(50vw - var(--photoButtonsWidth) / 2);
 
 		width: calc(var(--photoButtonsWidth) * 14 / 16);
-		height: calc(.7 * var(--photoButtonsHeight) / 3);
+		height: calc(.8 * var(--photoButtonsHeight) / 3);
 
 		font-size: 20px;
 
@@ -336,7 +336,7 @@ button:disabled {
 		height: calc(1.65 * var(--photoButtonsHeight) / 3);
 	}
 
-		#startbutton { background-color: #FFFF0090; border: #00000090 5px solid; }
+		#startbutton { background-color: #FFFF0090; border: #FFFFFF70 5px solid; }
 		#unreadablePhotoButton { background-color: #FF000095; }
 
 	#switchbutton,
@@ -474,10 +474,12 @@ button:disabled {
 {
 	display: none;
 
-	width: auto;
-	margin-top: 3vh;
-	max-width: var(--photoButtonsWidth);
-	max-height: 64vh;
+	position: fixed;
+	top: calc(var(--headerHeight) * 1.8);
+	left: calc(50vw - (9 * var(--frameHeight) / 16) / 2);
+
+	height: calc(var(--frameHeight) - 2 * max(1vh, 1vw, 10px));
+	width: calc(9 * var(--frameHeight) / 16 - 2 * max(1vh, 1vw, 10px));
 
 	border: max(1vh, 1vw, 10px) white solid;
 
@@ -497,8 +499,8 @@ button:disabled {
 	top: calc(var(--headerHeight) * 1.8);
 	left: calc(50vw - (9 * var(--frameHeight) / 16) / 2);
 
-	height: var(--frameHeight);
-	width: calc(9 * var(--frameHeight) / 16);
+	height: calc(var(--frameHeight) - 6px);
+	width: calc(9 * var(--frameHeight) / 16 - 6px);
 
 
 /*

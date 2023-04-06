@@ -107,6 +107,20 @@ function userInput(e) {
 };
 
 
+
+function setPhotoMode(m) {
+	if (m == "creation") {
+		photoMode = "creation";
+    frame.classList.add("displayed");
+
+	}
+	else if (m == "edition") {
+		photoMode = "edition";
+    frame.classList.remove("displayed");
+	}
+}
+
+
 function drawScreenshot()
 {
 	getWindowOrientation();
@@ -348,29 +362,53 @@ async function nextScreen()
 
     if(webcamTolerance)
     { // MODE SANS ECHEC
-    	navigator.mediaDevices.getUserMedia({audio: false, video: {
-			    width: { min: 1080, max: 1080 },
-			    height: { min: 1920, max: 1920 },
-			    facingMode: { ideal: webcamFacingMode }
-			  },
-			})
-	    .then((stream) => {
-	    	getWindowOrientation();
-	    	webcamFacingMode == "user";
-	    	webcamFront = true;
+    	try
+    	{
+    		navigator.mediaDevices.getUserMedia({audio: false, video: {
+				    width: { min: 1080, max: 1080 },
+				    height: { min: 1920, max: 1920 },
+				    facingMode: { ideal: webcamFacingMode }
+				  },
+				})
+		    .then((stream) => {
+		    	getWindowOrientation();
+		    	webcamFacingMode == "user";
+		    	webcamFront = true;
 
-	      video.srcObject = stream;
-	      video.play();
-	      videoBlur.srcObject = stream;
-	      videoBlur.play();
-	      console.log("STREAM RES : " + stream.getVideoTracks()[0].getSettings().height + " x " + stream.getVideoTracks()[0].getSettings().width);
-	      webcamInput = stream;
-	      getWindowOrientation();
-	    })
-	    .catch(function(err) {
-	      console.log("ERROR - CRITICAL - NO CAM FOUND");
-	      return;
-	    });
+		      video.srcObject = stream;
+		      video.play();
+		      videoBlur.srcObject = stream;
+		      videoBlur.play();
+		      console.log("STREAM RES : " + stream.getVideoTracks()[0].getSettings().height + " x " + stream.getVideoTracks()[0].getSettings().width);
+		      webcamInput = stream;
+		      getWindowOrientation();
+		    })
+		    .catch(function(err) {
+		      console.log("ERROR - CRITICAL - NO SELECTION CAM POSSIBLE");
+		      navigator.mediaDevices.getUserMedia({audio: false, video: true})
+			    .then((stream) => {
+			    	getWindowOrientation();
+			    	webcamFacingMode == "user";
+			    	webcamFront = true;
+
+			      video.srcObject = stream;
+			      video.play();
+			      videoBlur.srcObject = stream;
+			      videoBlur.play();
+			      console.log("STREAM RES : " + stream.getVideoTracks()[0].getSettings().height + " x " + stream.getVideoTracks()[0].getSettings().width);
+			      webcamInput = stream;
+			      getWindowOrientation();
+			    })
+			    .catch(function(err) {
+			      console.log("ERROR - CRITICAL - NO CAM FOUND");
+			      return;
+			    });
+		    });
+    	}
+    	catch(e)
+    	{
+    		
+    	}
     }
     else // MODE NORMAL
     {
@@ -523,9 +561,9 @@ async function nextScreen()
 
     unreadablePhotoButton.addEventListener('click', function(ev){
     	document.getElementById("photo").classList.remove("displayed");
-      photoMode = "creation";
       buttonsTransition("photoValidationButtons", "photoshotButtons");
       clearphoto();
+      setPhotoMode("creation");
       ev.preventDefault();
     }, false);
 
@@ -605,7 +643,8 @@ async function nextScreen()
 
       document.getElementById("photo").classList.add("displayed");
 
-      photoMode = "edition";
+      setPhotoMode("edition");
+
       buttonsTransition("photoshotButtons", "photoValidationButtons");
     } else {
       clearphoto();
@@ -635,15 +674,6 @@ document.addEventListener('DOMContentLoaded', function(event)
 
 
 
-
-	//screen.orientation.lock("portrait-primary");
-	//var locOrientation = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation || screen.orientation.lock;
-	//locOrientation('portrait-primary');
-	var myScreenOrientation = window.screen.orientation;
-	try {
-		myScreenOrientation.lock("portrait-primary");
-	}
-	catch(e) { console.log("WARNING - SCREEN ORIENTATION LOCK UNAVAILABLE"); }
 
 	//urrentDeviceOrientation = screen.orientation.type;
 	var nomTemp = ['Robert', 'Jean-Claude', 'Abdel', "Arnaud", "Stéphane", "Kim-Jong Un"];
