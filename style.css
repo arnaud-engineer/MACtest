@@ -263,10 +263,14 @@ input::placeholder {
 	z-index: -1;
 }
 
+#video.clair
+{ filter: contrast(200%) brightness(80%); }
 
+#video.normal
+{  }
 
-
-
+#video.sombre
+{ filter: brightness(300%); }
 
 
 

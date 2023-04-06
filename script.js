@@ -23,11 +23,15 @@
   var endbutton = null;
   var switchbutton = null;
 
+  var mNormalbutton = null;
+  var mClairbutton = null;
+  var mSombrebutton = null;
+
 
 
   var webcamInput;
   var webcamSettings;
-  var webcamTolerance = "exact";
+  var webcamTolerance = false;
   var webcamFacingMode = "environment";
 
   var webcamSwitchSingleton = false;
@@ -35,6 +39,8 @@
 
   var webcamBack = null;
   var webcamFront = null;
+
+  var webcamFilter = "normal";
 
 
 
@@ -221,44 +227,78 @@ async function nextScreen()
     endbutton = document.getElementById('endbutton');
     switchbutton = document.getElementById('switchbutton');
 
-    
-    navigator.mediaDevices.getUserMedia({audio: false, video: {
-		    width: { min: 720, ideal: 1080, max: 1080 },
-		    height: { min: 1280, ideal: 1920, max: 1920 },
-		    facingMode: { exact: webcamFacingMode }
-		  },
-		})
-    .then((stream) => {
-      video.srcObject = stream;
-      video.play();
-      videoBlur.srcObject = stream;
-      videoBlur.play();
-      webcamInput = stream;
+    mNormalbutton = document.getElementById('mNormalbutton');
+    mClairbutton = document.getElementById('mClairbutton');
+    mSombrebutton = document.getElementById('mSombrebutton');
 
-      if(webcamFacingMode == "environment") {
-      	webcamBack = true;
-      }
-      else if (webcamFacingMode == "user") {
-      	webcamFront = true;
-      }
-    })
-    .catch(function(err) {
-      console.log("NO EXACT ENV NAMED " + webcamFacingMode);
 
-      if(webcamFacingMode == "environment") {
-      	webcamFacingMode = "user";
-      	webcamBack = false;
-      	startup();
-      	return;
-      }
-      else if (webcamFacingMode == "user") {
-      	webcamFront = false;
-      }
+    if(webcamTolerance)
+    { // MODE SANS ECHEC
+    	navigator.mediaDevices.getUserMedia({audio: false, video: {
+			    width: { min: 720, ideal: 1080, max: 1080 },
+			    height: { min: 1280, ideal: 1920, max: 1920 },
+			    facingMode: { ideal: webcamFacingMode }
+			  },
+			})
+	    .then((stream) => {
+	    	webcamFacingMode == "user";
+	    	webcamFront = true;
 
-      if(!(webcamBack||webcamFront)) {
-      	console.log("ERROR : no camera found ");
-      }
-    });
+	      video.srcObject = stream;
+	      video.play();
+	      videoBlur.srcObject = stream;
+	      videoBlur.play();
+	      webcamInput = stream;
+	    })
+	    .catch(function(err) {
+	      console.log("ERROR - CRITICAL - NO CAM FOUND");
+	      return;
+	    });
+    }
+    else // MODE NORMAL
+    {
+			navigator.mediaDevices.getUserMedia({audio: false, video: {
+			    width: { min: 720, ideal: 1080, max: 1080 },
+			    height: { min: 1280, ideal: 1920, max: 1920 },
+			    facingMode: { exact: webcamFacingMode }
+			  },
+			})
+	    .then((stream) => {
+	      video.srcObject = stream;
+	      video.play();
+	      videoBlur.srcObject = stream;
+	      videoBlur.play();
+	      webcamInput = stream;
+
+	      if(webcamFacingMode == "environment") {
+	      	webcamBack = true;
+	      }
+	      else if (webcamFacingMode == "user") {
+	      	webcamFront = true;
+	      }
+	    })
+	    .catch(function(err) {
+	      console.log("NO EXACT ENV NAMED " + webcamFacingMode);
+
+	      if((!(webcamBack||webcamFront)) && webcamBack != null && webcamFront != null) {
+	      	console.log("ERROR : no camera found ");
+	      }
+	      
+	      if(webcamFacingMode == "environment" && (!webcamTolerance)) {
+	      	webcamFacingMode = "user";
+	      	webcamBack = false;
+	      	startup();
+	      	return;
+	      }
+	      else if (webcamFacingMode == "user" && (!webcamTolerance)) {
+	      	webcamFront = false;
+	      	webcamTolerance = true;
+	      	webcamFacingMode == "environment";
+	      	startup();
+	      	return;
+	      }
+	    });
+    }
 
     video.addEventListener('canplay', function(ev){
     	webcamSettings = webcamInput.getVideoTracks()[0].getSettings();
@@ -297,6 +337,33 @@ async function nextScreen()
       startup();
       ev.preventDefault();
     }, false);
+
+    mNormalbutton.addEventListener('click', function(ev){
+  	try { video.classList.remove("normal"); } catch(e) {}
+  	try { video.classList.remove("clair"); } catch(e) {}
+  	try { video.classList.remove("sombre"); } catch(e) {}
+  	video.classList.add("normal");
+  	webcamFilter="normal";
+    ev.preventDefault();
+   }, false);
+
+  mClairbutton.addEventListener('click', function(ev){
+  	try { video.classList.remove("normal"); } catch(e) {}
+  	try { video.classList.remove("clair"); } catch(e) {}
+  	try { video.classList.remove("sombre"); } catch(e) {}
+  	video.classList.add("clair");
+  	webcamFilter="clair";
+    ev.preventDefault();
+   }, false);
+
+  mSombrebutton.addEventListener('click', function(ev){
+  	try { video.classList.remove("normal"); } catch(e) {}
+  	try { video.classList.remove("clair"); } catch(e) {}
+  	try { video.classList.remove("sombre"); } catch(e) {}
+  	video.classList.add("sombre");
+  	webcamFilter="sombre";
+    ev.preventDefault();
+   }, false);
 
     if(!webcamSwitchSingleton) {
     	webcamSwitchSingleton = true;
@@ -345,9 +412,12 @@ async function nextScreen()
     if (width && height) {
       canvas.width = width;
       canvas.height = height;
-      //context.translate(width, 0);
-      //context.rotate(Math.PI / 2);
-      //context.rotate(Math.PI / 2); // radian
+      if(webcamFilter == "clair") {
+      	context.filter = "contrast(200%) brightness(80%)";
+      }
+      else if(webcamFilter == "sombre") {
+      	context.filter = "brightness(300%)";
+      }
       context.drawImage(video, 0, 0, width, height);
     
       var data = canvas.toDataURL('image/png');
