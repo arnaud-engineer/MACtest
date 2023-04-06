@@ -110,10 +110,12 @@ function userInput(e) {
 function drawScreenshot()
 {
 	getWindowOrientation();
-	let steamWidth = webcamInput.getVideoTracks()[0].getSettings().width;
-	let steamHeight = webcamInput.getVideoTracks()[0].getSettings().height;
-	if (steamHeight < steamWidth) {
-		steamWidth = steamHeight * 9 / 16;
+	let streamWidth = webcamInput.getVideoTracks()[0].getSettings().width;
+	let streamHeight = webcamInput.getVideoTracks()[0].getSettings().height;
+	let bestPossibleWidth = streamWidth;
+	let bestPossibleHeight = streamHeight;
+	if (streamHeight < streamWidth) {
+		bestPossibleWidth = streamHeight * 9 / 16;
 	}
 
 	if(webcamFilter == "clair") {
@@ -124,7 +126,7 @@ function drawScreenshot()
   }
 
   if(photoMode == "creation") {
-  	contextOriginal.drawImage(video, (width / 2) - (steamWidth / 2), 0, steamWidth, steamHeight, 0, 0, width, height);
+  	contextOriginal.drawImage(video, (streamWidth / 2) - (bestPossibleWidth / 2), 0, bestPossibleWidth, bestPossibleHeight, 0, 0, width, height);
   }
   context.drawImage(canvasOriginal, 0, 0, width, height, 0, 0, width, height);
 
