@@ -114,8 +114,13 @@ function drawScreenshot()
 	let streamHeight = webcamInput.getVideoTracks()[0].getSettings().height;
 	let bestPossibleWidth = streamWidth;
 	let bestPossibleHeight = streamHeight;
-	if (streamHeight < streamWidth) {
+	if (streamWidth > streamHeight) {
 		bestPossibleWidth = streamHeight * 9 / 16;
+	}
+	if (width > height) {
+		let temp = width;
+		width = height;
+		height = temp;
 	}
 
 	if(webcamFilter == "clair") {
