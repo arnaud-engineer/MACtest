@@ -126,7 +126,7 @@ function drawScreenshot()
   if(photoMode == "creation") {
   	contextOriginal.drawImage(video, (width / 2) - (steamWidth / 2), 0, steamWidth, steamHeight, 0, 0, width, height);
   }
-  context.drawImage(canvasOriginal, (width / 2) - (steamWidth / 2), 0, steamWidth, steamHeight, 0, 0, width, height);
+  context.drawImage(canvasOriginal, 0, 0, width, height, 0, 0, width, height);
 
   var data = canvas.toDataURL('image/png');
 	photo.setAttribute('src', data);
