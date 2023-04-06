@@ -135,7 +135,9 @@ function drawScreenshot()
 }
 
 function getWindowOrientation() {
-	if(window.innerHeight > window.innerWidth) {
+	let style = window.getComputedStyle(document.getElementById("video"), null);
+
+	if(style.getPropertyValue("height") < window.innerWidth) {
 		windowOrientation = "portrait";
 		document.getElementById("videoBlur").classList.add("hidden");
 		document.getElementById("video").classList.add("portrait");
