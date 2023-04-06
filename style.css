@@ -28,6 +28,8 @@
 	color: white;
 	text-transform: uppercase;
 	text-align: center;
+
+	background-color: black;
 }
 
 
@@ -71,26 +73,24 @@ header
 	left: 0;
 	width: 100vw;
 	height: max(40px, 4vh, 4vw);
-	background-color: red;
 
 	text-transform: uppercase;
 
-	box-shadow: 0px max(10px, 1vh, 1vw) 0px 0px black;
+	z-index: 10;
 }
 
 	header h1
 	{
-		background-color: yellow;
+		background-color: #FFFF0090;
 		color: black;
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100vw;
+		width: min(30vw, 30vh, 180px);
 		height: max(40px, 4vh, 4vw);
 		font-size: max(30px, 3vh, 3vw);
 
 		margin-left: auto;
 		margin-right: auto;
+
+		box-shadow: 0px max(10px, 1vh, 1vw) 0px 0px black;
 	}
 
 
@@ -148,6 +148,60 @@ input::placeholder {
 
 
 
+
+
+
+/* RESET BUTTONS */
+button, input[type="submit"], input[type="reset"] {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+/* COMMON */
+button, input[type="submit"], input[type="reset"] {
+	text-transform: uppercase;
+}
+
+button:disabled {
+	opacity: .3;
+	filter: grayscale(100%);
+	cursor: initial;
+}
+
+
+.bottom-hidden
+{
+	display: none !important;
+}
+
+.bottom-displayed
+{
+	display: block;
+	transform: translateY(110vH);
+}
+
+.bottom-current
+{
+	transform: translateY(0vH);
+}
+
+.bottom-entranceAnimation {
+	transform: translateY(110vH);
+}
+
+
+.bottom-removalAnimation {
+	transform: translateY(110vH);
+}
+
+
+
+
 .actionButtons
 {
 	width: 92vw;
@@ -180,6 +234,122 @@ input::placeholder {
 		transform: scale(.9);
 		opacity: .9;
 	}
+
+
+
+
+
+
+.photoButtons
+{
+	background-color: #00000050;
+
+	position: fixed;
+	bottom: 0;
+	left: calc(50vw - max(20vw,200px) / 2);
+	width: max(20vw,200px);
+	height: max(10vh,100px);
+
+	margin-left: auto;
+	margin-right: auto;
+
+	display: block;
+
+	box-shadow: 0px min(-10px, -1vh, -1vw) 0px 0px black;
+
+	text-transform: uppercase;
+
+	overflow: hidden;
+}
+
+	#restartbutton,
+	#endbutton, .nextStep
+	{
+		display: none;
+	}
+
+	#modeSelection
+	{
+		position: fixed;
+		bottom: calc(max(1vh,8px) + max(10vh,100px) / 2 + max(1vh,8px) * 1.5);
+		left: calc(50vw - max(20vw,200px) / 2);
+
+		width: calc(max(20vw,200px) * 14 / 16);
+		height: calc(1.2 * 22px);
+
+		font-size: 20px;
+
+		display: flex;
+		flex-wrap: nowrap;
+		flex-direction: row;
+		justify-content: space-between;
+
+		margin-left: calc(max(20vw,200px) / 16);
+		margin-right: calc(max(20vw,200px) / 16);
+	}
+
+		#mNormalbutton,
+		#mClairbutton,
+		#mSombrebutton
+		{
+			background-color: #00000075;
+			color: white;
+			width: calc(max(20vw,200px) * 14 / 16 / 3 - max(2vw, 6px));
+		}
+
+
+	#photoshotButtons,
+	#photoValidationButtons
+	{
+		position: fixed;
+		bottom: max(1vh,8px);
+		left: calc(50vw - max(20vw,200px) / 2);
+
+		width: calc(max(20vw,200px) * 14 / 16);
+		height: calc(max(10vh,100px) / 2);
+
+		font-size: 22px;
+
+		display: flex;
+		flex-wrap: nowrap;
+		flex-direction: row;
+		justify-content: space-between;
+
+		margin-left: calc(max(20vw,200px) / 16);
+		margin-right: calc(max(20vw,200px) / 16);
+
+
+	}
+
+	#startbutton,
+	#unreadablePhotoButton
+	{
+		/*
+		position: fixed;
+		bottom: max(1vh,8px);
+		left: calc(50vw - max(20vw,200px) / 2 + max(20vw,200px) / 16);*/
+
+		width: calc(max(20vw,200px) * 14 / 16 - max(10vh,100px) / 2 - max(20vw,200px) / 16);
+		height: calc(max(10vh,100px) / 2);
+	}
+
+		#startbutton { background-color: #FFFF0090; border: #00000090 5px solid; }
+		#unreadablePhotoButton { background-color: #FF000095; }
+
+	#switchbutton,
+	#readablePhotoButton
+	{
+		width: calc(max(10vh,100px) / 2);
+		height: calc(max(10vh,100px) / 2);
+	}
+
+		#switchbutton { background-color: #00000075; }
+		#readablePhotoButton { background-color: #00FF0095; }
+
+
+
+
+
 
 
 
@@ -222,10 +392,10 @@ input::placeholder {
 #background
 {
 	position: fixed;
-	top: max(50px, 5vh, 5vw);;
+	top: 0;
 	left: 0;
 	width: 100vw;
-	height: calc(100vh - max(50px, 5vh, 5vw));
+	height: 100vh;
 
 	overflow: hidden;
 
@@ -242,6 +412,8 @@ input::placeholder {
 	    right: -9999px;
 	    margin: auto;
 
+	    min-width: 100vw;
+
 
 	filter: blur(5px);
 	z-index: -2;
@@ -255,8 +427,9 @@ input::placeholder {
 	    left: -9999px;
 	    right: -9999px;
 	    margin: auto;
-	    max-height: 100vh;
-	    max-width: 100vh;
+	    min-height: 100vh;
+	    max-height: 120vh;
+	    max-width: 140vw;
 
 
 
@@ -277,7 +450,7 @@ input::placeholder {
 
 
 
-#canvas
+#canvas, #canvasOriginal
 { display: none; }
 
 
@@ -286,7 +459,9 @@ input::placeholder {
 	display: none;
 
 	width: auto;
-	height: 60vh;
+	margin-top: 3vh;
+	max-width: max(20vw,200px);
+	max-height: 64vh;
 
 	border: max(1vh, 1vw, 10px) white solid;
 
@@ -296,4 +471,44 @@ input::placeholder {
 #photo.displayed
 {
 	display: inline-block;
+}
+
+
+#frame
+{
+	display: none;
+
+	margin-top: calc(max(40px, 4vh, 4vw) * 1.6);
+	width: auto;
+	height: auto;
+	max-width: calc(64vh * 9 / 16)!important;
+	max-height: 64vh !important;
+
+	border: 2px #FFFF0090 solid;
+
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+	z-index: 10;
+
+	color: #FFFF0090;
+	font-size: max(16px, 3.5vh);
+	text-align: center;
+	text-shadow: -1px -1px 3px #00000090;
+
+	position: relative;
+}
+
+#frame.displayed
+{
+	display: inline-block;
+}
+
+#frame div
+{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	padding-bottom: calc(max(40px, 4vh, 4vw) * .2);
+
 }

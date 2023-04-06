@@ -17,8 +17,11 @@
 
   var video = null;
   var videoBlur = null;
+  var canvasOriginal = null;
   var canvas = null;
   var photo = null;
+  var frame = null;
+
   var startbutton = null;
   var endbutton = null;
   var switchbutton = null;
@@ -26,6 +29,11 @@
   var mNormalbutton = null;
   var mClairbutton = null;
   var mSombrebutton = null;
+
+  var readablePhotoButton = null;
+  var unreadablePhotoButton = null;
+
+  var userButtonsList = [];
 
 
 
@@ -41,6 +49,21 @@
   var webcamFront = null;
 
   var webcamFilter = "normal";
+
+
+
+  /* PHOTOSHOT */
+  var photoMode = "creation"; // "app", "creation", "edition" 
+
+
+
+  /* CANVAS */
+  var context = null;
+  var contextOriginal = null;
+
+
+
+  var buttonsTransitionSingleton = false;
 
 
 
@@ -175,6 +198,39 @@ async function pageOpening() {
 
 
 
+
+function buttonsActivation(activated) {
+	if(activated === true || activated === false) {
+		for(let i=0; i < userButtonsList.length ; i++) {
+			userButtonsList[i].disabled = (!activated);
+		}
+	}
+}
+
+async function buttonsTransition(but1, but2) {
+	if(!buttonsTransitionSingleton) {
+		buttonsActivation(false);
+		buttonsTransitionSingleton=true;
+		document.getElementById(but1).classList.add("bottom-removalAnimation");
+		document.getElementById(but2).classList.add("bottom-entranceAnimation");
+		document.getElementById(but2).classList.remove("bottom-hidden");
+		document.getElementById(but2).classList.add("bottom-entranceAnimation");
+		document.getElementById(but2).classList.add("bottom-displayed");
+		await new Promise(r => setTimeout(r, 1));
+		document.getElementById(but2).classList.add("bottom-current");
+		document.getElementById(but2).classList.remove("bottom-entranceAnimation");
+		await new Promise(r => setTimeout(r, 700));
+		document.getElementById(but1).classList.add("bottom-hidden");
+		document.getElementById(but1).classList.remove("bottom-displayed");
+		document.getElementById(but1).classList.remove("bottom-current");
+		document.getElementById(but1).classList.remove("bottom-removalAnimation");
+
+		console.log("BUTTON CHANGE : " + but1 + " -> " + but2);
+		buttonsTransitionSingleton=false;
+		buttonsActivation(true);
+	}
+}
+
 async function displayNextScreen() {
 	previousScreen = currentScreen;
 	currentScreen++;
@@ -222,7 +278,10 @@ async function nextScreen()
     video = document.getElementById('video');
     videoBlur = document.getElementById('videoBlur');
     canvas = document.getElementById('canvas');
+    canvasOriginal = document.getElementById('canvasOriginal');
     photo = document.getElementById('photo');
+    frame = document.getElementById("frame");
+
     startbutton = document.getElementById('startbutton');
     endbutton = document.getElementById('endbutton');
     switchbutton = document.getElementById('switchbutton');
@@ -230,6 +289,12 @@ async function nextScreen()
     mNormalbutton = document.getElementById('mNormalbutton');
     mClairbutton = document.getElementById('mClairbutton');
     mSombrebutton = document.getElementById('mSombrebutton');
+
+    readablePhotoButton = document.getElementById("readablePhotoButton");
+    unreadablePhotoButton = document.getElementById("unreadablePhotoButton");
+
+    //List
+    userButtonsList = [startbutton, switchbutton, readablePhotoButton, unreadablePhotoButton];
 
 
     if(webcamTolerance)
@@ -319,6 +384,12 @@ async function nextScreen()
         video.setAttribute('height', height);
         canvas.setAttribute('width', height);
         canvas.setAttribute('height', width);
+        canvasOriginal.setAttribute('width', height);
+        canvasOriginal.setAttribute('height', width);
+
+        frame.classList.add("displayed");
+        let ratioWidth = height*9/16;
+        frame.setAttribute('style', "height:"+height+"px; width:"+ratioWidth+"px");
         streaming = true;
       }
     }, false);
@@ -343,7 +414,13 @@ async function nextScreen()
   	try { video.classList.remove("clair"); } catch(e) {}
   	try { video.classList.remove("sombre"); } catch(e) {}
   	video.classList.add("normal");
+  	mSombrebutton.disabled = false;
+  	mNormalbutton.disabled = true;
+  	mClairbutton.disabled = false;
   	webcamFilter="normal";
+  	if(photoMode == "edition") {
+  		changeFilter();
+  	}
     ev.preventDefault();
    }, false);
 
@@ -352,7 +429,13 @@ async function nextScreen()
   	try { video.classList.remove("clair"); } catch(e) {}
   	try { video.classList.remove("sombre"); } catch(e) {}
   	video.classList.add("clair");
+  	mSombrebutton.disabled = false;
+  	mNormalbutton.disabled = false;
+  	mClairbutton.disabled = true;
   	webcamFilter="clair";
+  	if(photoMode == "edition") {
+  		changeFilter();
+  	}
     ev.preventDefault();
    }, false);
 
@@ -361,9 +444,31 @@ async function nextScreen()
   	try { video.classList.remove("clair"); } catch(e) {}
   	try { video.classList.remove("sombre"); } catch(e) {}
   	video.classList.add("sombre");
+  	mSombrebutton.disabled = true;
+  	mNormalbutton.disabled = false;
+  	mClairbutton.disabled = false;
   	webcamFilter="sombre";
+  	if(photoMode == "edition") {
+  		changeFilter();
+  	}
     ev.preventDefault();
    }, false);
+
+  	readablePhotoButton.addEventListener('click', function(ev){
+      nextScreen();
+      ev.preventDefault();
+    }, false);
+
+    unreadablePhotoButton.addEventListener('click', function(ev){
+    	document.getElementById("photo").classList.remove("displayed");
+      photoMode = "creation";
+      buttonsTransition("photoValidationButtons", "photoshotButtons");
+      clearphoto();
+      ev.preventDefault();
+    }, false);
+
+
+
 
     if(!webcamSwitchSingleton) {
     	webcamSwitchSingleton = true;
@@ -407,11 +512,35 @@ async function nextScreen()
   function stoprecording() {
     video.srcObject.getTracks().forEach(track => track.stop());
   }
+
+
+
+  function changeFilter() {
+  	context = canvas.getContext('2d');
+		if(webcamFilter == "clair") {
+     	context.filter = "contrast(200%) brightness(80%)";
+     }
+     else if(webcamFilter == "sombre") {
+      context.filter = "brightness(300%)";
+     }
+     else
+     {
+     	context.filter = "contrast(100%) brightness(100%)";
+     }
+     context.drawImage(canvasOriginal, 0, 0, width, height);
+
+     var data = canvas.toDataURL('image/png');
+     photo.setAttribute('src', data);
+  }
+
   function takepicture() {
-    var context = canvas.getContext('2d');
+  	context = canvas.getContext('2d');
+  	contextOriginal = canvasOriginal.getContext('2d');
     if (width && height) {
       canvas.width = width;
       canvas.height = height;
+      canvasOriginal.width = width;
+      canvasOriginal.height = height;
       if(webcamFilter == "clair") {
       	context.filter = "contrast(200%) brightness(80%)";
       }
@@ -419,15 +548,20 @@ async function nextScreen()
       	context.filter = "brightness(300%)";
       }
       context.drawImage(video, 0, 0, width, height);
+      contextOriginal.drawImage(video, 0, 0, width, height);
     
       var data = canvas.toDataURL('image/png');
       photo.setAttribute('src', data);
 
       document.getElementById("photo").classList.add("displayed");
+
+      photoMode = "edition";
+      buttonsTransition("photoshotButtons", "photoValidationButtons");
     } else {
       clearphoto();
     }
   }
+
 
 
 
@@ -446,6 +580,7 @@ document.addEventListener('DOMContentLoaded', function(event)
 	else {
 	    alert('getUserMedia() is not supported in your browser');
 	}
+
 
 
 

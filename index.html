@@ -4,7 +4,7 @@
 		<!-- ENCODAGE -->
 			<meta charset="utf-8" />
 		<!-- PAGE INFO -->
-			<title>MAC check</title>
+			<title>MAC checker</title>
 		<!-- RESPONSIVENESS -->
 			<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 		<!-- CSS -->
@@ -17,7 +17,7 @@
 	<body class="">
 
 		<header>
-			<h1>MAC check</h1>
+			<h1>MAC checker</h1>
 		</header>
 
 		<noscript>JavaScript is currently disabled on your browser, to enhanced your browsing experience you should activate it : <a href="https://www.enable-javascript.com">see how</a></noscript>
@@ -27,6 +27,7 @@
 			<div id="background">
 				<video id="videoBlur">Video stream not available.</video>
 				<video id="video">Video stream not available.</video>
+				<div id="frame"><div>Tournez l'appareil et centrez la référence dans le cadre</div></div>
 			</div>
 
 
@@ -35,32 +36,39 @@
 
 			<div class="screen current displayed" id="screen0">
 
-				<!--<input type="file" accept="image/*;capture=camera">
 
-				<device type="media" onchange="update(this.data)"></device>-->
-				<div class="camera">
-  
-</div>
+				 
 
-<canvas id="canvas"></canvas>
+				<canvas id="canvas"></canvas><canvas id="canvasOriginal"></canvas>
 
-<div class="output">
-  <img id="photo" alt="The screen capture will appear in this box.">
-</div>
+				<div class="output">
+				  <img id="photo" alt="The screen capture will appear in this box.">
+				</div>
 
 
-<div class="actionButtons">
-	<button id="startbutton">📸</button>
-	<button id="endbutton">Off</button>
-	<button id="restartbutton">On</button>
-	<button id="switchbutton">🔄</button>
+				<div class="photoButtons">
+					<div id="modeSelection">
+						<button id="mSombrebutton">Sombre</button>
+						<button id="mNormalbutton" disabled>Normal</button>
+						<button id="mClairbutton">Clair</button>
+					</div>
 
-	<button id="mNormalbutton">normal</button>
-	<button id="mClairbutton">clair</button>
-	<button id="mSombrebutton">sombre</button>
+					<div id="photoshotButtons" class="bottom-current">
+						<button id="startbutton">📸</button>
+						<button id="switchbutton">🔄</button>
+					</div>
 
-	<span class="nextStep" onclick="nextScreen();">></span>
-</div>
+					<div id="photoValidationButtons" class="bottom-hidden">
+						<button id="unreadablePhotoButton">Recommencer</button>
+						<button id="readablePhotoButton">OK</button>
+					</div>
+
+					<!-- HIDDEN BUTTONS -->
+					<button id="endbutton">Off</button>
+					<button id="restartbutton">On</button>
+
+					<span class="nextStep" onclick="nextScreen();">></span>
+				</div>
 
 
 
