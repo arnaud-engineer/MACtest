@@ -140,11 +140,11 @@ function getWindowOrientation() {
 
 	if(window.innerWidth * 16 < window.innerHeight * 16) {
 		windowOrientation = "portrait";
-		document.getElementById("videoBlur").classList.add("hidden");
+		//document.getElementById("videoBlur").classList.add("hidden");
 		document.getElementById("video").classList.add("portrait");
 	} else {
 		windowOrientation = "landscape";
-		document.getElementById("videoBlur").classList.remove("hidden");
+		//document.getElementById("videoBlur").classList.remove("hidden");
 		document.getElementById("video").classList.remove("portrait");
 	}
 
@@ -447,7 +447,7 @@ async function nextScreen()
         canvasOriginal.setAttribute('height', height);
 
         frame.classList.add("displayed");
-        frame.setAttribute('style', "height:"+Math.max(width, height)+"px; width:"+Math.min(width, height)+"px");
+        //frame.setAttribute('style', "height:"+Math.max(width, height)+"px; width:"+Math.min(width, height)+"px");
         //video.setAttribute('style', "height:"+Math.min(width, height)+"px; width:"+Math.max(width, height)+"px");
         streaming = true;
       }
