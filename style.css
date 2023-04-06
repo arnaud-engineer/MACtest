@@ -435,6 +435,9 @@ button:disabled {
 
 	    overflow: hidden;
 
+	    aspect-ratio: 1920 / 1080;
+
+
 
 
 	z-index: -1;

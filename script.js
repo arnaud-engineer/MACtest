@@ -313,8 +313,8 @@ async function nextScreen()
     if(webcamTolerance)
     { // MODE SANS ECHEC
     	navigator.mediaDevices.getUserMedia({audio: false, video: {
-			    width: { min: 270, max: 270 },
-    			height: { min: 480, max: 480},
+			    width: { min: 1080, max: 1080 },
+			    height: { min: 1920, max: 1920 },
 			    facingMode: { ideal: webcamFacingMode }
 			  },
 			})
@@ -337,8 +337,8 @@ async function nextScreen()
     else // MODE NORMAL
     {
 			navigator.mediaDevices.getUserMedia({audio: false, video: {
-			    width: { min: 270, max: 270 },
-    			height: { min: 480, max: 480},
+			    width: { min: 1080, max: 1080 },
+			    height: { min: 1920, max: 1920 },
 			    facingMode: { exact: webcamFacingMode }
 			  },
 			})
