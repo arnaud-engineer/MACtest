@@ -113,7 +113,7 @@ function drawScreenshot()
 	let steamWidth = webcamInput.getVideoTracks()[0].getSettings().width;
 	let steamHeight = webcamInput.getVideoTracks()[0].getSettings().height;
 	if (steamHeight < steamWidth) {
-		steamWidth = steamHeight * 16 / 9;
+		steamWidth = steamHeight * 9 / 16;
 	}
 
 	if(webcamFilter == "clair") {
