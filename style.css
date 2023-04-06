@@ -168,8 +168,8 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 button:disabled {
-	opacity: .3;
-	filter: grayscale(100%);
+	opacity: .8;
+	filter: grayscale(100%) invert(100%);
 	cursor: initial;
 }
 
@@ -432,6 +432,8 @@ button:disabled {
 	    min-height: 100vh;
 	    max-height: 120vh;
 	    max-width: 140vw;
+
+	    overflow: hidden;
 
 
 
