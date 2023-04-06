@@ -107,6 +107,17 @@ function userInput(e) {
 };
 
 
+function getWindowOrientation() {
+	if(window.innerHeight > window.innerWidth) {
+		windowOrientation = "portrait";
+		document.getElementById("videoBlur").classList.add("hidden");
+		document.getElementById("video").classList.add("portrait");
+	} else {
+		windowOrientation = "landscape";
+		document.getElementById("videoBlur").classList.remove("hidden");
+		document.getElementById("video").classList.remove("portrait");
+	}
+}
 
 
 function updateUsersList(new_user) {
@@ -587,11 +598,7 @@ async function nextScreen()
 
 document.addEventListener('DOMContentLoaded', function(event)
 {
-	if(window.innerHeight > window.innerWidth) {
-		windowOrientation = "portrait";
-	} else {
-		windowOrientation = "landscape";
-	}
+	getWindowOrientation();
 
 	if (hasGetUserMedia()) {
 	  // Set up our event listener to run the startup process once loading is complete.
@@ -628,4 +635,5 @@ window.onresize = async function(event) {
 	document.getElementsByTagName("body")[0].classList.add("resized");
 	await new Promise(r => setTimeout(r, 1000));
 	document.getElementsByTagName("body")[0].classList.remove("resized");
+	getWindowOrientation();
 };

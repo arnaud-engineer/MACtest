@@ -419,6 +419,8 @@ button:disabled {
 	z-index: -2;
 }
 
+	#videoBlur.hidden { display:none !important; }
+
 
 #video {
 				position: absolute;
@@ -435,6 +437,11 @@ button:disabled {
 
 	z-index: -1;
 }
+
+	#video.portrait {
+		min-width: 100vw !important; width: 100vw !important; max-width: 100vw !important;
+		max-height: 9999vh;
+	}
 
 #video.clair
 { filter: contrast(200%) brightness(80%); }
