@@ -315,7 +315,8 @@ async function nextScreen()
     	navigator.mediaDevices.getUserMedia({audio: false, video: {
 			    width: { min: 1080, ideal: 1080, max: 1080 },
 			    height: { min: 1920, ideal: 1920, max: 1920 },
-			    facingMode: { ideal: webcamFacingMode }
+			    facingMode: { ideal: webcamFacingMode },
+			    advanced: [{ width: 1080, height: 1920 }, { aspectRatio: 0.5625 }]
 			  },
 			})
 	    .then((stream) => {
@@ -326,6 +327,7 @@ async function nextScreen()
 	      video.play();
 	      videoBlur.srcObject = stream;
 	      videoBlur.play();
+	      console.log("STREAM RES : " + stream.getVideoTracks()[0].getSettings().height + " x " + stream.getVideoTracks()[0].getSettings().width);
 	      webcamInput = stream;
 	    })
 	    .catch(function(err) {
@@ -338,7 +340,8 @@ async function nextScreen()
 			navigator.mediaDevices.getUserMedia({audio: false, video: {
 			    width: { min: 1080, ideal: 1080, max: 1080 },
 			    height: { min: 1920, ideal: 1920, max: 1920 },
-			    facingMode: { exact: webcamFacingMode }
+			    facingMode: { exact: webcamFacingMode },
+			    advanced: [{ width: 1080, height: 1920 }, { aspectRatio: 0.5625 }]
 			  },
 			})
 	    .then((stream) => {
