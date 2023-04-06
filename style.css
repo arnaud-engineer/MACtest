@@ -441,7 +441,8 @@ button:disabled {
 }
 
 	#video.portrait {
-		min-width: 100vw !important; width: 100vw !important; max-width: 100vw !important;
+		/*min-width: 100vw !important; width: 100vw !important;*/
+		max-width: 100vw !important;
 		max-height: 9999vh;
 	}
 
