@@ -445,6 +445,14 @@ button:disabled {
 #video.sombre
 { filter: brightness(300%); }
 
+#videoBlur.clair
+{ filter: blur(5px) contrast(200%) brightness(80%); }
+
+#videoBlur.normal
+{ filter: blur(5px); }
+
+#videoBlur.sombre
+{ filter: blur(5px) brightness(300%); }
 
 
 

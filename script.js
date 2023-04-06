@@ -422,10 +422,11 @@ async function nextScreen()
     }, false);
 
     mNormalbutton.addEventListener('click', function(ev){
-  	try { video.classList.remove("normal"); } catch(e) {}
-  	try { video.classList.remove("clair"); } catch(e) {}
-  	try { video.classList.remove("sombre"); } catch(e) {}
+  	try { video.classList.remove("normal"); videoBlur.classList.remove("normal"); } catch(e) {}
+  	try { video.classList.remove("clair"); videoBlur.classList.remove("clair"); } catch(e) {}
+  	try { video.classList.remove("sombre"); videoBlur.classList.remove("sombre"); } catch(e) {}
   	video.classList.add("normal");
+  	videoBlur.classList.add("normal");
   	mSombrebutton.disabled = false;
   	mNormalbutton.disabled = true;
   	mClairbutton.disabled = false;
@@ -437,10 +438,11 @@ async function nextScreen()
    }, false);
 
   mClairbutton.addEventListener('click', function(ev){
-  	try { video.classList.remove("normal"); } catch(e) {}
-  	try { video.classList.remove("clair"); } catch(e) {}
-  	try { video.classList.remove("sombre"); } catch(e) {}
+  	try { video.classList.remove("normal"); videoBlur.classList.remove("normal"); } catch(e) {}
+  	try { video.classList.remove("clair"); videoBlur.classList.remove("clair"); } catch(e) {}
+  	try { video.classList.remove("sombre"); videoBlur.classList.remove("sombre"); } catch(e) {}
   	video.classList.add("clair");
+  	videoBlur.classList.add("clair");
   	mSombrebutton.disabled = false;
   	mNormalbutton.disabled = false;
   	mClairbutton.disabled = true;
@@ -452,10 +454,11 @@ async function nextScreen()
    }, false);
 
   mSombrebutton.addEventListener('click', function(ev){
-  	try { video.classList.remove("normal"); } catch(e) {}
-  	try { video.classList.remove("clair"); } catch(e) {}
-  	try { video.classList.remove("sombre"); } catch(e) {}
+  	try { video.classList.remove("normal"); videoBlur.classList.remove("normal"); } catch(e) {}
+  	try { video.classList.remove("clair"); videoBlur.classList.remove("clair"); } catch(e) {}
+  	try { video.classList.remove("sombre"); videoBlur.classList.remove("sombre"); } catch(e) {}
   	video.classList.add("sombre");
+  	videoBlur.classList.add("sombre");
   	mSombrebutton.disabled = true;
   	mNormalbutton.disabled = false;
   	mClairbutton.disabled = false;
