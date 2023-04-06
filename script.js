@@ -413,6 +413,7 @@ async function nextScreen()
         frame.classList.add("displayed");
         let ratioWidth = height*9/16;
         frame.setAttribute('style', "height:"+height+"px; width:"+ratioWidth+"px");
+        video.setAttribute('style', "height:"+height+"px; width:"+ratioWidth+"px");
         streaming = true;
       }
     }, false);
