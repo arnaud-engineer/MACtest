@@ -55,7 +55,7 @@
 
 
   /* PHOTOSHOT */
-  var photoMode = "creation"; // "app", "creation", "edition" 
+  var photoMode = null; // "app", "creation", "edition" 
 
 
 
@@ -107,11 +107,41 @@ function userInput(e) {
 };
 
 
+function drawScreenshot()
+{
+	getWindowOrientation();
+	let steamWidth = webcamInput.getVideoTracks()[0].getSettings().width;
+	let steamHeight = webcamInput.getVideoTracks()[0].getSettings().height;
+	if (steamHeight < steamWidth) {
+		steamWidth = steamHeight * 16 / 9;
+	}
+
+	if(webcamFilter == "clair") {
+    context.filter = "contrast(200%) brightness(80%)";
+  }
+  else if(webcamFilter == "sombre") {
+    context.filter = "brightness(300%)";
+  }
+
+  if(photoMode == "creation") {
+  	contextOriginal.drawImage(video, (width / 2) - (steamWidth / 2), 0, steamWidth, steamHeight, 0, 0, width, height);
+  }
+  context.drawImage(canvasOriginal, (width / 2) - (steamWidth / 2), 0, steamWidth, steamHeight, 0, 0, width, height);
+
+  var data = canvas.toDataURL('image/png');
+	photo.setAttribute('src', data);
+}
+
 function getWindowOrientation() {
 	if(window.innerHeight > window.innerWidth) {
 		windowOrientation = "portrait";
 		document.getElementById("videoBlur").classList.add("hidden");
 		document.getElementById("video").classList.add("portrait");
+		if (width > height) {
+      let temp = width;
+      width = height;
+      height = temp;
+    }
 	} else {
 		windowOrientation = "landscape";
 		document.getElementById("videoBlur").classList.remove("hidden");
@@ -396,13 +426,8 @@ async function nextScreen()
         }
         */
 
-        if(windowOrientation == "portrait") {
-        	if (width > height) {
-        		let temp = width;
-        		width = height;
-        		height = temp;
-        	}
-        }
+
+        getWindowOrientation();
       
         video.setAttribute('width', width);
         video.setAttribute('height', height);
@@ -555,13 +580,11 @@ async function nextScreen()
      {
      	context.filter = "contrast(100%) brightness(100%)";
      }
-     context.drawImage(canvasOriginal, 0, 0, width, height);
-
-     var data = canvas.toDataURL('image/png');
-     photo.setAttribute('src', data);
+     drawScreenshot();
   }
 
   function takepicture() {
+  	photoMode = "creation";
   	context = canvas.getContext('2d');
   	contextOriginal = canvasOriginal.getContext('2d');
     if (width && height) {
@@ -569,17 +592,7 @@ async function nextScreen()
       canvas.height = height;
       canvasOriginal.width = width;
       canvasOriginal.height = height;
-      if(webcamFilter == "clair") {
-      	context.filter = "contrast(200%) brightness(80%)";
-      }
-      else if(webcamFilter == "sombre") {
-      	context.filter = "brightness(300%)";
-      }
-      context.drawImage(video, 0, 0, width, height);
-      contextOriginal.drawImage(video, 0, 0, width, height);
-    
-      var data = canvas.toDataURL('image/png');
-      photo.setAttribute('src', data);
+      drawScreenshot();
 
       document.getElementById("photo").classList.add("displayed");
 
