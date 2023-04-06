@@ -52,7 +52,7 @@
 
 body
 {
-	overflow: hidden;
+	overflow: hidden !important;
 
 	font-size: max(30px, 3vh, 3vw);
 

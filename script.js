@@ -392,10 +392,10 @@ async function nextScreen()
       
         video.setAttribute('width', width);
         video.setAttribute('height', height);
-        canvas.setAttribute('width', height);
-        canvas.setAttribute('height', width);
-        canvasOriginal.setAttribute('width', height);
-        canvasOriginal.setAttribute('height', width);
+        canvas.setAttribute('width', width);
+        canvas.setAttribute('height', height);
+        canvasOriginal.setAttribute('width', width);
+        canvasOriginal.setAttribute('height', height);
 
         frame.classList.add("displayed");
         let ratioWidth = height*9/16;
