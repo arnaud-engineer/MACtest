@@ -135,9 +135,10 @@ function drawScreenshot()
 }
 
 function getWindowOrientation() {
-	let style = window.getComputedStyle(document.getElementById("video"), null);
+	//let style = window.getComputedStyle(document.getElementById("video"), null);
+	//style.getPropertyValue("height")
 
-	if(style.getPropertyValue("height") < window.innerWidth) {
+	if(window.innerWidth * 16 < window.innerHeight * 16) {
 		windowOrientation = "portrait";
 		document.getElementById("videoBlur").classList.add("hidden");
 		document.getElementById("video").classList.add("portrait");
@@ -438,17 +439,16 @@ async function nextScreen()
 
         getWindowOrientation();
       
-        video.setAttribute('width', width);
-        video.setAttribute('height', height);
+        video.setAttribute('width', Math.max(width, height));
+        video.setAttribute('height', Math.min(width, height));
         canvas.setAttribute('width', width);
         canvas.setAttribute('height', height);
         canvasOriginal.setAttribute('width', width);
         canvasOriginal.setAttribute('height', height);
 
         frame.classList.add("displayed");
-        let ratioWidth = height*9/16;
-        frame.setAttribute('style', "height:"+height+"px; width:"+ratioWidth+"px");
-        video.setAttribute('style', "height:"+height+"px; width:"+ratioWidth+"px");
+        frame.setAttribute('style', "height:"+Math.max(width, height)+"px; width:"+Math.min(width, height)+"px");
+        //video.setAttribute('style', "height:"+Math.min(width, height)+"px; width:"+Math.max(width, height)+"px");
         streaming = true;
       }
     }, false);

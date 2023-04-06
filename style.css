@@ -428,28 +428,23 @@ button:disabled {
 
 
 #video {
-				position: absolute;
-	    top: -9999px;
-	    bottom: -9999px;
-	    left: -9999px;
-	    right: -9999px;
-	    margin: auto;
-
-	    min-width: 100vw;
-	    max-width: 100vw;
-	    max-height: 140vh;
-
-	    overflow: hidden;
-
-
-
-
+	background-color: red;
+	width: 100vw;
+	max-height: 120vh;
+	overflow: hidden;
 	z-index: -1;
 }
 
 	#video.portrait {
-		/*min-width: 100vw !important; width: 100vw !important;*/
-		/*max-width: 100vw;*/
+		position: absolute;
+	  top: -9999px;
+	  bottom: -9999px;
+	  left: -9999px;
+	  right: -9999px;
+	  margin: auto;
+		object-fit: contain;
+		width: auto;
+		min-height: 100vh;
 	}
 
 #video.clair
