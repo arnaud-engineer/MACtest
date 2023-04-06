@@ -7,6 +7,8 @@
   var width = 1080;    // We will scale the photo width to this
   var height = 1920;     // This will be computed based on the input stream
 
+  var windowOrientation = null;
+
   // |streaming| indicates whether or not we're currently streaming
   // video from the camera. Obviously, we start at false.
 
@@ -379,6 +381,14 @@ async function nextScreen()
         if (isNaN(height)) {
           height = width / (4/3);
         }
+
+        if(windowOrientation == "portrait") {
+        	if (width > height) {
+        		let temp = width;
+        		width = height;
+        		height = temp;
+        	}
+        }
       
         video.setAttribute('width', width);
         video.setAttribute('height', height);
@@ -572,6 +582,11 @@ async function nextScreen()
 
 document.addEventListener('DOMContentLoaded', function(event)
 {
+	if(window.innerHeight > window.innerWidth) {
+		windowOrientation = "portrait";
+	} else {
+		windowOrientation = "landscape";
+	}
 
 	if (hasGetUserMedia()) {
 	  // Set up our event listener to run the startup process once loading is complete.
