@@ -71,6 +71,14 @@
 
 
 
+  /* TESERACT */
+  var fileListPrototype = null;
+  var fileList = null;
+
+
+
+
+
 /*  =========================================================================
 	 DEMO
 	========================================================================= */
@@ -683,7 +691,166 @@ document.addEventListener('DOMContentLoaded', function(event)
 	//localStorage.clear();
 	pageOpening();
 	document.querySelector('input').onkeydown = userInput;
+
+
+
+
+	/* TEXT RECO */
+
+	// CREATE THE WORKER
+
+	setTimeout(() => {
+
+		/*
+		fileListPrototype = {
+		  files: [],
+		  add: function(file) {
+		    this.files.push(file);
+		  }
+		};
+
+		fileList = Object.create(fileListPrototype);
+		fileList.add("test.png");
+		*/
+
+
+	  textRecoInit();
+	}, 1000);
+
+
+
+
+
+
+
+
+
+
 });
+
+
+function textRecoInit() {
+
+/*
+	window.Tesseract = Tesseract.create({
+    // Path to worker
+		workerPath: 'http://localhost:8888/MACtest/worker.js',
+		// Path of folder where the language trained data is located
+		// note the "/" at the end, this string will be concatenated with the selected language
+		langPath: 'http://localhost:8888/MACtest/languages/',
+		// Path to index script of the tesseract core ! https://github.com/naptha/tesseract.js-core
+		corePath: 'http://localhost:8888/MACtest/tesseract.js-core/index.js',
+	});
+*/
+	//Tesseract.OEM = "TESSERACT_ONLY";
+	//Tesseract.PSM = 6;
+
+/*
+	let options = {
+		oem: 1,
+    l: 'deu',
+    psm: 6,
+    binary: '/usr/local/bin/tesseract',
+    tessedit_char_blacklist: 'e'
+	};
+	*/
+//"tessedit_char_blacklist": 'e',
+/*
+	let options = {
+		tessedit_ocr_engine_mod : 0
+		//'tessedit_char_blacklist': 'e',
+	};
+*/
+	let options = {
+      'tessedit_create_pdf': '1',
+      'pdf_auto_download': false, // disable auto download
+      'pdf_bin': true,            // add pdf file bin array in result
+    };
+/*
+	let worker = Tesseract.createWorker({
+  	options, logger: m => console.log(m)
+	});
+*/
+
+	let worker = Tesseract.createWorker(options);
+	//delete Tesseract.OEM.DEFAULT;
+
+/*
+	Tesseract.process("http://localhost:8888/MACtest/" + 'test2.png', options, function(err, text) {
+	    if(err) {
+	        console.error(err);
+	    } else {
+	        console.log(text);
+	    }
+	});
+*/
+
+	Tesseract.recognize(
+		"./test6.png",//"./test5.jpg",
+		"eng",
+		worker
+	  ).then(function(result){
+		// The result object of a text recognition contains detailed data about all the text
+		// recognized in the image, words are grouped by arrays etc
+		console.log(result);
+		console.log(result.data.text);
+		console.log(result.data.oem);
+		console.log(options);
+		console.log(Tesseract.OEM);
+
+		// Show recognized text in the browser !
+		//alert(result.data.text);
+		}).finally(function(){
+			// Enable button once the text recognition finishes (either if fails or not)
+			//btn.disable = false;
+		});
+
+/*
+// LOCAL RUN
+
+window.Tesseract = Tesseract.create({
+    // Path to worker
+    workerPath: '/worker.js',
+    // Path of folder where the language trained data is located
+    langPath: '/langs-folder/',
+    // Path to index script of the tesseract core ! https://github.com/naptha/tesseract.js-core
+    corePath: '/index.js',
+});
+*/
+
+/*
+	const worker = new Tesseract.TesseractWorker();
+	worker.recognize(fileList, "eng")
+	.progress(function(packet){
+	    console.info(packet)
+	    progressUpdate(packet)
+	})
+	.then(function(data){
+	    console.log(data)
+	    progressUpdate({ status: 'done', data: data })
+	})
+*/
+
+	//const { createWorker } = require('lib/tesseract.min.js');
+/*
+	const worker = await createWorker();
+
+	(async () => {
+		await worker.loadLanguage('eng+chi_tra');
+		await worker.initialize('eng+chi_tra');
+		const { data: { text } } = await worker.recognize('test.png');
+		console.log(text);
+		await worker.terminate();
+	})();
+	*/
+	/*
+	Tesseract.recognize("test.png", 'eng', {
+	  workerPath: 'https://unpkg.com/tesseract.js@v4.0.1/dist/worker.min.js',
+	  langPath: 'https://tessdata.projectnaptha.com/4.0.0',
+	  corePath: 'https://unpkg.com/tesseract.js-core@v4.0.1/tesseract-core.wasm.js',
+	})
+	*/
+}
 
 window.onresize = async function(event) {
 	document.getElementsByTagName("body")[0].classList.add("resized");

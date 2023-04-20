@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<!-- ENCODAGE -->
+			<meta charset="utf-8" />
+		<!-- PAGE INFO -->
+			<title>MAC checker</title>
+		<!-- RESPONSIVENESS -->
+			<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">    
+			<meta name="theme-color" content="#FFFF00">
+		<!-- CSS -->
+			<link rel="stylesheet" href="style.css" />
+			<link rel="manifest" href="site.webmanifest">
+		<!-- JavaScript (ORDER : https://support.freshmarketer.com/support/solutions/articles/50000001426-synchronous-and-asynchronous-script-execution )-->
+			<script src='https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js'></script>
+			<!--<script src="script.js"></script>-->
+			<!--<script src='lib/tesseract.min.js'></script>-->
+			<!--<script src='https://unpkg.com/tesseract.js@v2.0.0-alpha.13/dist/tesseract.min.js'></script>-->
+			<!--<script src='https://cdn.rawgit.com/naptha/tesseract.js/1.0.10/dist/tesseract.js'></script>-->
+
+			<style>
+				#test { opacity:1; }
+				#canvasTest { opacity:0; }
+				#displayedResult { color:white; }
+			</style>
+
+			<script type="text/javascript">
+
+				setTimeout(() => {
+
+						//i++;
+
+						var img = document.getElementById("test");
+						var canvasTest = document.getElementById("canvasTest");
+						var context = canvasTest.getContext('2d');
+						var displayedResult = document.getElementById("displayedResult");
+
+						canvasTest.width = img.width;
+			     		canvasTest.height = img.height;
+
+			     		//context.filter = "saturate(.01)"; 
+
+			     		context.filter = "blur(1px) saturate(.01)"; 
+
+
+			     		// PRE - REMOVE DETAILS : saturate(.01)
+
+
+			     		// context.filter = "saturate(10) grayscale(1) contrast(.33) blur(1px) contrast(1.5) ";
+			     		// "blur(2px) contrast(.33)";
+
+
+
+
+			     		context.drawImage(img, 0, 0, img.width, img.height, 0, 0, img.width, img.height);
+
+
+			     		var data = canvasTest.toDataURL('image/png');
+			     		img.removeAttribute('src');
+						img.setAttribute('src', data);
+
+
+
+
+
+
+
+						// THREEHOLD
+
+
+
+			     		var base64string = "data:image/png;base64,iVBOR..........",
+						    threshold = 60, // 0..255         50      109
+						    ctx = canvasTest.getContext("2d"),
+						    image = img;
+
+						//image.onload = function() {
+
+						  var w = ctx.canvas.width  = image.width,
+						      h = ctx.canvas.height = image.height;
+
+						  //ctx.filter = "saturate(20) contrast(.2) brightness(1.5) contrast(2) grayscale(1) invert(100%)";
+						  //ctx.filter = "brightness(1.2) contrast(1.2) blur(.5px)";
+
+						  //ctx.filter = "blur(1px)";
+
+						  ctx.drawImage(image, 0, 0, w, h);      // Set image to Canvas context
+						  var d = ctx.getImageData(0, 0, w, h);  // Get image Data from Canvas context
+
+
+						  for (var i=0; i<d.data.length; i+=4) { // 4 is for RGBA channels
+						    // R=G=B=R>T?255:0
+						    d.data[i] = d.data[i+1] = d.data[i+2] = d.data[i+1] > threshold ? 255 : 0;
+						  }
+
+						  ctx.putImageData(d, 0, 0);             // Apply threshold conversion
+						  document.body.appendChild(ctx.canvas); // Show result
+						  img.src = base64string;
+						//};
+
+
+
+
+						  var data = canvasTest.toDataURL('image/png');
+				     		img.removeAttribute('src');
+							img.setAttribute('src', data);
+
+
+
+
+
+
+
+
+
+			     		
+
+			     		//filterVal += "saturate(1) contrast(.2) brightness(1.5) contrast(2) grayscale(1) invert(100%)";
+
+
+			     		//context.filter = filterVal;
+
+			     		//context.drawImage(img, 0, 0, img.width, img.height, 0, 0, img.width, img.height);
+
+
+
+
+			     		
+						
+						Tesseract.recognize(
+							img,//"./test5.jpg",
+							"eng"
+						  ).then(function(result){
+							// The result object of a text recognition contains detailed data about all the text
+							// recognized in the image, words are grouped by arrays etc
+							console.log(result);
+							console.log(result.data.text);
+
+							for(let j=0; j < result.data.lines.length ; j++) {
+								displayedResult.innerHTML += result.data.lines[j].text + "<br/>";
+							}
+							})
+		
+
+				}, 2000);
+		</script>
+
+	</head>
+
+	<body>
+
+		<div id="displayedResult"></div>
+		<img src="./test5.jpg" id="test" />
+		<canvas id="canvasTest"></canvas>
+
+
+
+	</body>
+</html>
